@@ -22,23 +22,44 @@ public:
     }
 };
 
+class Bag {
+public:
+    virtual void releaseBag() = 0;
+};
+
+class sportBag : public Bag {
+public:
+    void releaseBag() override{
+        cout << "Спортивная сумка, ";
+    }
+};
+
+class classicBag : public Bag {
+public:
+    void releaseBag() override {
+        cout << "Классическая сумка, ";
+    }
+};
+
 class Suit {
 public:
-    virtual void releaseSuit(Shoes* shoes) = 0;
+    virtual void releaseSuit(Bag* bag, Shoes* shoes) = 0;
 };
 
 class SportSuit : public Suit{
 public:
-    void releaseSuit(Shoes* shoes) override {
-        cout << "Спортивный костюм очень хорошо подходит для повседневного использования, а на ногах удобные: ";
+    void releaseSuit(Bag* bag, Shoes* shoes) override {
+        cout << "Спортивный костюм очень хорошо подходит для повседневного использования, в комплекте прекрасно смотрятся: ";
+        bag->releaseBag();
         shoes->releaseShoes();
     }
 };
 
 class Smoking : public Suit {
 public:
-    void releaseSuit(Shoes* shoes) override {
+    void releaseSuit(Bag* bag, Shoes* shoes) override {
         cout << "Смокинг выглядит великолепно, к нему отлично подходят: ";
+        bag->releaseBag();
         shoes->releaseShoes();
     }
 };
@@ -47,6 +68,7 @@ class Costume {//абстрактная фабрика
 public:
     virtual Shoes* createShoes() = 0;
     virtual Suit* createSuit() = 0;
+    virtual Bag* createBag() = 0;
 };
 
 class SportCostume : public Costume {
@@ -56,6 +78,9 @@ public:
     }
     Suit* createSuit() override {
         return new SportSuit(); 
+    }
+    Bag* createBag() override {
+        return new sportBag();
     }
 };
 
@@ -68,6 +93,9 @@ public:
     Suit* createSuit()override {
         return new Smoking();
     }
+    Bag* createBag() override {
+        return new classicBag();
+    }
 };
 
 class DailyCostume : public Costume {
@@ -77,6 +105,9 @@ public:
     }
     Suit* createSuit() override {
         return new SportSuit();
+    }
+    Bag* createBag()override {
+        return new classicBag();
     }
 };
 
@@ -89,22 +120,25 @@ int main()
 
     Shoes* sport_shoes = sport_costume->createShoes();
     Suit* sport_suit = sport_costume->createSuit();
+    Bag* sport_bag = sport_costume->createBag();
 
-    sport_suit->releaseSuit(sport_shoes);
+    sport_suit->releaseSuit(sport_bag,sport_shoes);
 
     Costume* classic_costume = new ClassicCostume();
 
     Shoes* classic_shoes = classic_costume->createShoes();
     Suit* classic_suit = classic_costume->createSuit();
+    Bag* classic_bag = classic_costume->createBag();
 
-    classic_suit->releaseSuit(classic_shoes);
+    classic_suit->releaseSuit(classic_bag,classic_shoes);
 
     Costume* daily_costume = new DailyCostume();
 
     Shoes* daily_shoes = daily_costume->createShoes();
     Suit* daily_suit = daily_costume->createSuit();
+    Bag* daily_bag = daily_costume->createBag();
 
-    daily_suit->releaseSuit(daily_shoes);
+    daily_suit->releaseSuit(daily_bag, daily_shoes);
     
 }
 
