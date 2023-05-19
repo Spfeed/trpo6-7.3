@@ -47,25 +47,9 @@ public:
 };
 
 class SportSuit : public Suit{
-public:
-    void releaseSuit(Bag* bag, Shoes* shoes) override {
-        cout << "Спортивный костюм очень хорошо подходит для повседневного использования, в комплекте прекрасно смотрятся: ";
+public: //хаха хахо
         bag->releaseBag();
         shoes->releaseShoes();
-    }
-};
-
-class Smoking : public Suit {
-public:
-    void releaseSuit(Bag* bag, Shoes* shoes) override {
-        cout << "Смокинг выглядит великолепно, к нему отлично подходят: ";
-        bag->releaseBag();
-        shoes->releaseShoes();
-    }
-};
-
-class Costume {//абстрактная фабрика
-public:
     virtual Shoes* createShoes() = 0;
     virtual Suit* createSuit() = 0;
     virtual Bag* createBag() = 0;
