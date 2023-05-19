@@ -70,6 +70,15 @@ public:
     }
 };
 
+class DailyCostume : public Costume {
+public:
+    Shoes* createShoes() override {
+        return new ClassicShoes();
+    }
+    Suit* createSuit() override {
+        return new SportSuit();
+    }
+};
 
 
 int main()
@@ -89,6 +98,13 @@ int main()
     Suit* classic_suit = classic_costume->createSuit();
 
     classic_suit->releaseSuit(classic_shoes);
+
+    Costume* daily_costume = new DailyCostume();
+
+    Shoes* daily_shoes = daily_costume->createShoes();
+    Suit* daily_suit = daily_costume->createSuit();
+
+    daily_suit->releaseSuit(daily_shoes);
     
 }
 
